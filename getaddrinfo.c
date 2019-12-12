@@ -107,9 +107,6 @@ void printAddrInfo(struct addrinfo *ai) {
 
 int main (int argc, char **argv) {
   struct addrinfo ai;
-  struct addrinfo *res;
-  struct addrinfo *rp;
-  int ret;
   memset(&ai, 0, sizeof(struct addrinfo));
   ai.ai_family = AF_INET;
   ai.ai_socktype = SOCK_DGRAM;
@@ -118,18 +115,24 @@ int main (int argc, char **argv) {
   ai.ai_canonname = NULL;
   ai.ai_addr = NULL;
   ai.ai_next = NULL;
+
   clock_t t; 
   t = clock(); 
+  struct addrinfo *res;
+  int ret;
   ret = getaddrinfo("localhost", NULL, &ai, &res);
   t = clock() - t; 
   printf("Elapsed time: %f seconds\n", ((double)t)/CLOCKS_PER_SEC); 
+
   if (ret != 0) {
     fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(ret));
     exit(EXIT_FAILURE);
   }
+  struct addrinfo *rp;
   for (rp = res; rp != NULL; rp = rp->ai_next) {
     printAddrInfo(rp);
   }
+
   freeaddrinfo(res);
   exit(0);
 }
