@@ -3,6 +3,7 @@
 #include <string.h>
 #include <netdb.h>
 #include <arpa/inet.h>
+#include <time.h>
 
 void printFlags(int flags) {
   printf("Flags:    ");
@@ -117,7 +118,11 @@ int main (int argc, char **argv) {
   ai.ai_canonname = NULL;
   ai.ai_addr = NULL;
   ai.ai_next = NULL;
+  clock_t t; 
+  t = clock(); 
   ret = getaddrinfo("localhost", NULL, &ai, &res);
+  t = clock() - t; 
+  printf("Elapsed time: %f seconds\n", ((double)t)/CLOCKS_PER_SEC); 
   if (ret != 0) {
     fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(ret));
     exit(EXIT_FAILURE);
