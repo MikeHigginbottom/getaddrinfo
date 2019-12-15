@@ -107,10 +107,12 @@ void printAddrInfo(struct addrinfo *ai) {
 
 int main (int argc, char **argv) {
   struct addrinfo ai;
+  char *node = NULL;
+  char *service = NULL;
   memset(&ai, 0, sizeof(struct addrinfo));
-  ai.ai_family = AF_INET;
-  ai.ai_socktype = SOCK_DGRAM;
-  ai.ai_flags = AI_PASSIVE;
+  ai.ai_family = 0;
+  ai.ai_socktype = 0;
+  ai.ai_flags = 0;
   ai.ai_protocol = 0;
   ai.ai_canonname = NULL;
   ai.ai_addr = NULL;
@@ -120,7 +122,7 @@ int main (int argc, char **argv) {
   t = clock(); 
   struct addrinfo *res;
   int ret;
-  ret = getaddrinfo("localhost", NULL, &ai, &res);
+  ret = getaddrinfo(node, service, &ai, &res);
   t = clock() - t; 
   printf("Elapsed time: %f seconds\n", ((double)t)/CLOCKS_PER_SEC); 
 
